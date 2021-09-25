@@ -1,5 +1,7 @@
 package JavaBreaker;
 
+import java.awt.*;
+
 public class Ball {
     int size = 10;
     int xPos;
@@ -32,6 +34,10 @@ public class Ball {
         this.yCenter += this.yDir;
     }
 
+    void draw(Graphics g) {
+        g.setColor(Color.WHITE);
+        g.fillOval(this.xPos, this.yPos, this.size, this.size);
+    }
     void setDirection(int x, int y)  {
         this.xDir = x;
         this.yDir = y;

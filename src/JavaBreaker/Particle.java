@@ -32,8 +32,11 @@ public class Particle {
     }
 
     void draw (Graphics g) {
-        g.setColor(Color.WHITE);
-        g.drawLine(this.xTail, this.yTail, this.xHead, this.yHead);
+        if (!this.remove) {
+            g.setColor(Color.WHITE);
+            g.drawLine(this.xTail, this.yTail, this.xHead, this.yHead);
+        }
+
     }
 
     void tick() {
@@ -45,8 +48,7 @@ public class Particle {
                 this.xTail += this.xDir;
             }
             if (this.xTail > this.xHead) {
-                this.xHead = this.initXHead;
-                this.xTail = this.initXTail;
+                this.remove = true;
             }
         }
         if (this.xDir < 0 && this.yDir == 0) {
@@ -57,8 +59,7 @@ public class Particle {
                 this.xTail += this.xDir;
             }
             if (this.xTail < this.xHead) {
-                this.xHead = this.initXHead;
-                this.xTail = this.initXTail;
+                this.remove = true;
             }
         }
         if (this.yDir > 0 && this.xDir == 0) {
@@ -69,8 +70,7 @@ public class Particle {
                 this.yTail += this.yDir;
             }
             if (this.yTail > this.yHead) {
-                this.yHead = this.initYHead;
-                this.yTail = this.initYTail;
+                this.remove = true;
             }
         }
         if (this.yDir < 0 && this.xDir == 0) {
@@ -81,8 +81,7 @@ public class Particle {
                 this.yTail += this.yDir;
             }
             if (this.yTail < this.yHead) {
-                this.yHead = this.initYHead;
-                this.yTail = this.initYTail;
+                this.remove = true;
             }
         }
         if (this.xDir > 0 && this.yDir > 0) {
@@ -95,10 +94,7 @@ public class Particle {
                 this.yTail += this.yDir;
             }
             if (this.xTail > this.xHead) {
-                this.xHead = this.initXHead;
-                this.xTail = this.initXTail;
-                this.yHead = this.initYHead;
-                this.yTail = this.initYTail;
+                this.remove = true;
             }
         }
         if (this.xDir < 0 && this.yDir < 0) {
@@ -111,10 +107,7 @@ public class Particle {
                 this.yTail += this.yDir;
             }
             if (this.xTail < this.xHead) {
-                this.xHead = this.initXHead;
-                this.xTail = this.initXTail;
-                this.yHead = this.initYHead;
-                this.yTail = this.initYTail;
+                this.remove = true;
             }
         }
         if (this.xDir > 0 && this.yDir < 0) {
@@ -127,10 +120,7 @@ public class Particle {
                 this.yTail += this.yDir;
             }
             if (this.xTail > this.xHead) {
-                this.xHead = this.initXHead;
-                this.xTail = this.initXTail;
-                this.yHead = this.initYHead;
-                this.yTail = this.initYTail;
+                this.remove = true;
             }
         }
         if (this.xDir < 0 && this.yDir > 0) {
@@ -143,10 +133,7 @@ public class Particle {
                 this.yTail += this.yDir;
             }
             if (this.xTail < this.xHead) {
-                this.xHead = this.initXHead;
-                this.xTail = this.initXTail;
-                this.yHead = this.initYHead;
-                this.yTail = this.initYTail;
+                this.remove = true;
             }
         }
 

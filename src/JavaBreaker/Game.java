@@ -2,9 +2,9 @@ package JavaBreaker;
 
 import javax.swing.JPanel;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.util.Vector;
 import javax.swing.Timer;
 
 public class Game extends JPanel implements KeyListener, ActionListener, MouseMotionListener {
@@ -23,16 +23,8 @@ public class Game extends JPanel implements KeyListener, ActionListener, MouseMo
     private Paddle paddle = new Paddle(150, 10, 300, 545);
     private Ball ball = new Ball(50, 400, -1, -5);
     private Triangle triangle = new Triangle();
-    private Particle[] particles = new Particle[]{
-            new Particle(720, 450, 1, 0),
-            new Particle(720, 450, -1, 0),
-            new Particle(720, 450, 1, 1),
-            new Particle(720, 450, -1, -1),
-            new Particle(720, 450, 1, -1),
-            new Particle(720, 450, -1, 1),
-            new Particle(720, 450, 0, 1),
-            new Particle(720, 450, 0, -1)
-    };
+    private final List<Particle> explodeys = new ArrayList<Particle>();
+    Font myFont = new Font("Serif", Font.BOLD, 32);
 
 
     private Ball[] balls = new Ball[]{
@@ -46,7 +38,6 @@ public class Game extends JPanel implements KeyListener, ActionListener, MouseMo
             new Ball(342, 234, -5, 5),
     };
     private Collision collision = new Collision(balls, paddle, triangle);
-    Vector gameObjects = new Vector();
 
     public Game() {
         addKeyListener(this);
@@ -55,44 +46,39 @@ public class Game extends JPanel implements KeyListener, ActionListener, MouseMo
         setFocusTraversalKeysEnabled(false);
         timer = new Timer(delay, this);
         timer.start();
-        this.gameObjects = gameObjects;
-        start();
     }
 
-    public void start() {
-        this.gameObjects.add(balls);
-        this.gameObjects.add(triangle);
-        for (int i = 0; i<particles.length; i++) {
-            this.gameObjects.add(particles[i]);
-        }
-    }
     public void paint(Graphics g) {
         g.setColor(Color.black);
         g.fillRect(1, 1, 1422, 859);
-        System.out.println(this.gameObjects.size());
-        for (int i = 0; i<this.gameObjects.size(); i++) {
-            Object current = gameObjects.get(i);
-            current.draw(g);
+        g.setColor(Color.WHITE);
+        g.setFont(myFont);
+        g.drawString("Score " + score, 1200, 850);
+        for (Ball ball : balls) {
+            ball.draw(g);
         }
-
+        for (Particle particle : explodeys) {
+            particle.draw(g);
+        }
+        triangle.draw(g);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         timer.start();
         paddle.tick();
-
         if (play) {
             for (int i = 0; i<balls.length; i++) {
                 balls[i].tick();
             }
-            for (int i = 0; i<particles.length; i++) {
-               particles[i].tick();
+            for (int i = 0; i < explodeys.size(); i++){
+                explodeys.get(i).tick();
+                if (explodeys.get(i).remove) explodeys.remove(i);
             }
             triangle.tick();
             triangle.goTo(triangle.mouseX, triangle.mouseY);
         }
-        collision.triangleCollision();
+        if (collision.triangleCollision(explodeys)) score++;
         repaint();
     }
 
