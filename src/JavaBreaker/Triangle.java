@@ -1,6 +1,7 @@
 package JavaBreaker;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class Triangle {
     int x;
@@ -45,6 +46,15 @@ public class Triangle {
         this.centerX = (topX + rightX + leftX) / 3;
         this.centerY = (topY + rightY + leftY) / 3;
     }
+    public void draw(Graphics g) {
+        g.setColor(Color.WHITE);
+        g.drawPolygon(
+                new int[] {(int) this.leftX,
+                        (int) this.topX, (int) this.rightX},
+                new int[]{(int) this.leftY,
+                        (int) this.topY, (int) this.rightY},
+                3);
+    }
     public void tick() {
         this.xDistance = x - mouseX;
         this.yDistance = y - mouseY;
@@ -54,7 +64,7 @@ public class Triangle {
         this.topX = x;
         this.leftX = x + 100 * Math.cos(2 * Math.PI * rotationAngleL / 360);
         this.rightX = x + 100 * Math.cos(2 * Math.PI * rotationAngleR / 360);
-        this.topY = y + Math.sin(2 * Math.PI * rotationAngleL / 360);
+        this.topY = y;
         this.leftY = y + 100 * Math.sin(2 * Math.PI * rotationAngleL / 360);
         this.rightY = y + 100 * Math.sin(2 * Math.PI * rotationAngleR / 360);
         this.x += this.xSpeed;

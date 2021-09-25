@@ -1,11 +1,14 @@
 package JavaBreaker;
 
+import java.awt.*;
 import java.util.Random;
+import java.util.Vector;
 
 public class Collision {
     Ball[] balls;
     Paddle paddle;
     Triangle triangle;
+
 
     public Collision(Ball[] balls, Paddle paddle, Triangle triangle) {
         this.balls = balls;
@@ -33,9 +36,22 @@ public class Collision {
             return false;
         }
     }*/
-    boolean triangleCollision() {
+    Vector triangleCollision() {
         int hit = 0;
+        Vector partArrays = new Vector();
         for (int i = 0; i<balls.length; i++) {
+            Particle[] particles = new Particle[]{
+                    new Particle(balls[i].xCenter, balls[i].yCenter, 1, 0),
+                    new Particle(balls[i].xCenter, balls[i].yCenter, -1, 0),
+                    new Particle(balls[i].xCenter, balls[i].yCenter, 1, 1),
+                    new Particle(balls[i].xCenter, balls[i].yCenter, -1, -1),
+                    new Particle(balls[i].xCenter, balls[i].yCenter, 1, -1),
+                    new Particle(balls[i].xCenter, balls[i].yCenter, -1, 1),
+                    new Particle(balls[i].xCenter, balls[i].yCenter, 0, 1),
+                    new Particle(balls[i].xCenter, balls[i].yCenter, 0, -1)
+            };
+            partArrays.add(particles);
+
             Random rn = new Random();
             int randY = rn.nextInt(10) - 5;
             int randX = rn.nextInt(10) - 5;
@@ -52,8 +68,7 @@ public class Collision {
                 hit++;
             }
         }
-        if (hit > 0) return true;
-        return false;
+        return partArrays;
     }
     private double triDistance(Ball ball, Triangle triangle) {
         double dx = Math.abs(ball.xCenter - triangle.centerX);
